@@ -1,0 +1,53 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "ulearn_app",
+    "dateExported": "2023-09-28T18:52:00.668Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "1cc175e9-d285-4f41-9b9b-01549bdd57f4",
+            "colId": "d25eafe8-af84-49ab-917b-003378feb39e",
+            "containerId": "",
+            "name": "http://192.168.0.149:8000/api/login Copy",
+            "url": "http://127.0.0.1:8000/api/auth/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-09-28T18:51:41.481Z",
+            "modified": "2023-09-28T18:51:41.481Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "name",
+                        "value": "test1"
+                    },
+                    {
+                        "name": "email",
+                        "value": "acalto2@gmail.com"
+                    },
+                    {
+                        "name": "password",
+                        "value": "\"123456\""
+                    },
+                    {
+                        "name": "type",
+                        "value": "1"
+                    },
+                    {
+                        "name": "open_id",
+                        "value": "WR5NoeAXAbZT9OVTLOmKPBNAMFH3"
+                    },
+                    {
+                        "name": "avatar",
+                        "value": "\"\""
+                    }
+                ]
+            },
+            "tests": []
+        }
+    ]
+}

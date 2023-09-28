@@ -33,3 +33,6 @@ laravel/sanctum install
 composer require laravel/sanctum
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 php artisan migrate
+
+commit 137. Backend,dummy register, login with sanctum p6
+php artisan make:controller Api\\UserController
