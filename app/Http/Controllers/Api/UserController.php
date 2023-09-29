@@ -29,7 +29,7 @@ class UserController extends Controller
                     'open_id' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
-                    'password' => 'required'
+                    'password' => 'required|min:6'
                 ]
             );
 
@@ -60,6 +60,10 @@ class UserController extends Controller
                 $validated['token'] = md5(uniqid() . rand(10000, 99999));
                 //user first time created
                 $validated['created_at'] = Carbon::now();
+
+                //encript password
+                $validated["password"] = Hash::make($validated["password"]);
+
                 //returns the id of the row after saving
                 $userID = User::insertGetId($validated);
 
@@ -69,6 +73,7 @@ class UserController extends Controller
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
 
                 $userInfo->access_token = $accessToken;
+                User::where('id', '=', $userID)->update(['access_token' => $accessToken]);
 
                 return response()->json([
                     'status' => true,
