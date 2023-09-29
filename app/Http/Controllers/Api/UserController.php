@@ -29,7 +29,7 @@ class UserController extends Controller
                     'open_id' => 'required',
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
-                    //    'password' => 'required'
+                    'password' => 'required'
                 ]
             );
 
@@ -63,7 +63,8 @@ class UserController extends Controller
                 //returns the id of the row after saving
                 $userID = User::insertGetId($validated);
 
-                $userInfo = User::where('id', '=', $userID);
+                $userInfo = User::where('id', '=', $userID)->first();
+
                 //sanctum create token and puts it in accessToken
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
 
@@ -80,7 +81,7 @@ class UserController extends Controller
             $user->access_token = $accessToken;
             User::where('open_id', '=', $validated['open_id'])->update(['access_token' => $accessToken]);
 
-         
+
             return response()->json([
                 'code' => 200,
                 'msg' => 'User logged in Successfully',
