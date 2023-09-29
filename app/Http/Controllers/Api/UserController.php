@@ -28,7 +28,7 @@ class UserController extends Controller
                     'type' => 'required',
                     'open_id' => 'required',
                     'name' => 'required',
-                    'email' => 'required|email|unique:users,email',
+                    'email' => 'required',
                     'password' => 'required|min:6'
                 ]
             );
