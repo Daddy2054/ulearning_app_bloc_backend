@@ -75,19 +75,16 @@ class UserController extends Controller
                     'data' => $userInfo
                 ], 200);
             }
+            //user previously has logged in
+            $accessToken = $user->createToken(uniqid())->plainTextToken;
+            $user->access_token = $accessToken;
+            User::where('open_id', '=', $validated['open_id'])->update(['access_token' => $accessToken]);
 
-            // }
-
-            // $user = User::create([
-            //     'name' => $request->name,
-            //     'email' => $request->email,
-            //     'password' => Hash::make($request->password)
-            // ]);
-
+         
             return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'code' => 200,
+                'msg' => 'User logged in Successfully',
+                'data' => $user
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
