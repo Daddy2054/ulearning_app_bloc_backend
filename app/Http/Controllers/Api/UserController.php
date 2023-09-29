@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -39,19 +40,49 @@ class UserController extends Controller
                     'errors' => $validateUser->errors()
                 ], 401);
             }
+
+            //validated will have all user field values
+            //we can save in the database
             $validated = $validateUser->validated();
             $map = [];
-            $map['type']=$validated['type'];
+            $map['type'] = $validated['type'];
             $map['open_id'] = $validated['open_id'];
 
             $user = User::where($map)->first();
 
+            //wheter user has already logged in or not
+            //empty means does not exist
+            //then save the user in the database for the first time
+            if (empty($user->id)) {
+                //this certain user has never been in our database
+                //our job is to assign the user in the datatabse
+                //this token is user id
+                $validated['token'] = md5(uniqid() . rand(10000, 99999));
+                //user first time created
+                $validated['created_at'] = Carbon::now();
+                //returns the id of the row after saving
+                $userID = User::insertGetId($validated);
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
-            ]);
+                $userInfo = User::where('id', '=', $userID);
+                //sanctum create token and puts it in accessToken
+                $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
+
+                $userInfo->access_token = $accessToken;
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'User Created Successfully',
+                    'data' => $userInfo
+                ], 200);
+            }
+
+            // }
+
+            // $user = User::create([
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => Hash::make($request->password)
+            // ]);
 
             return response()->json([
                 'status' => true,
