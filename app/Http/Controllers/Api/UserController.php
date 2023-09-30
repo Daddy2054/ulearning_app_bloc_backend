@@ -19,6 +19,7 @@ class UserController extends Controller
      */
     public function createUser(Request $request)
     {
+   
         try {
             //Validated
             $validateUser = Validator::make(
