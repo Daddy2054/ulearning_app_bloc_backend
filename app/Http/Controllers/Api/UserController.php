@@ -68,7 +68,7 @@ class UserController extends Controller
                 //user first time created
                 $validated['created_at'] = Carbon::now();
                 //for debug
-                return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
+          //     return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
 
                 //encript password
                 //    $validated["password"] = Hash::make($validated["password"]);
@@ -88,8 +88,8 @@ class UserController extends Controller
                 User::where('id', '=', $userID)->update(['access_token' => $accessToken]);
 
                 return response()->json([
-                    'status' => true,
-                    'message' => 'User Created Successfully',
+                    'code' => 200,
+                    'msg' => 'User Created Successfully',
                     'data' => $userInfo
                 ], 200);
             }
