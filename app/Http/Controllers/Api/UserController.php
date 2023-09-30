@@ -19,18 +19,18 @@ class UserController extends Controller
      */
     public function createUser(Request $request)
     {
-   
+
         try {
             //Validated
             $validateUser = Validator::make(
                 $request->all(),
                 [
-                //    'avatar' => 'required',
+                    'avatar' => 'required',
                     'type' => 'required',
                     'open_id' => 'required',
                     'name' => 'required',
                     'email' => 'required',
-             //       'password' => 'required|min:6'
+                    //       'password' => 'required|min:6'
                 ]
             );
 
@@ -50,25 +50,36 @@ class UserController extends Controller
             $map['open_id'] = $validated['open_id'];
 
             $user = User::where($map)->first();
-return response()->json(['status'=>true,'data'=>$user,'message'=>'passed validation'],200);
-            //wheter user has already logged in or not
+            //for debugging
+            //return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
+
+            //wether user has already logged in or not
             //empty means does not exist
             //then save the user in the database for the first time
             if (empty($user->id)) {
+
+                //for debug
+          //  return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
+
                 //this certain user has never been in our database
                 //our job is to assign the user in the datatabse
                 //this token is user id
                 $validated['token'] = md5(uniqid() . rand(10000, 99999));
                 //user first time created
                 $validated['created_at'] = Carbon::now();
+                //for debug
+                return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
 
                 //encript password
-            //    $validated["password"] = Hash::make($validated["password"]);
+                //    $validated["password"] = Hash::make($validated["password"]);
 
                 //returns the id of the row after saving
                 $userID = User::insertGetId($validated);
 
                 $userInfo = User::where('id', '=', $userID)->first();
+
+//for debug
+    //            return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
 
                 //sanctum create token and puts it in accessToken
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
