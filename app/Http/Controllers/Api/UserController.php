@@ -25,12 +25,12 @@ class UserController extends Controller
             $validateUser = Validator::make(
                 $request->all(),
                 [
-                    'avatar' => 'required',
+                //    'avatar' => 'required',
                     'type' => 'required',
                     'open_id' => 'required',
                     'name' => 'required',
                     'email' => 'required',
-                    'password' => 'required|min:6'
+             //       'password' => 'required|min:6'
                 ]
             );
 
@@ -50,7 +50,7 @@ class UserController extends Controller
             $map['open_id'] = $validated['open_id'];
 
             $user = User::where($map)->first();
-
+return response()->json(['status'=>true,'data'=>$user,'message'=>'passed validation'],200);
             //wheter user has already logged in or not
             //empty means does not exist
             //then save the user in the database for the first time
@@ -63,7 +63,7 @@ class UserController extends Controller
                 $validated['created_at'] = Carbon::now();
 
                 //encript password
-                $validated["password"] = Hash::make($validated["password"]);
+            //    $validated["password"] = Hash::make($validated["password"]);
 
                 //returns the id of the row after saving
                 $userID = User::insertGetId($validated);
