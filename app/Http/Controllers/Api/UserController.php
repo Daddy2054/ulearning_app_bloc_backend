@@ -46,6 +46,7 @@ class UserController extends Controller
             //we can save in the database
             $validated = $validateUser->validated();
             $map = [];
+            //email,phone,google,facebook,apple
             $map['type'] = $validated['type'];
             $map['open_id'] = $validated['open_id'];
 
@@ -59,7 +60,7 @@ class UserController extends Controller
             if (empty($user->id)) {
 
                 //for debug
-          //  return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
+                //  return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
 
                 //this certain user has never been in our database
                 //our job is to assign the user in the datatabse
@@ -68,7 +69,7 @@ class UserController extends Controller
                 //user first time created
                 $validated['created_at'] = Carbon::now();
                 //for debug
-          //     return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
+                //     return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
 
                 //encript password
                 //    $validated["password"] = Hash::make($validated["password"]);
@@ -78,8 +79,8 @@ class UserController extends Controller
 
                 $userInfo = User::where('id', '=', $userID)->first();
 
-//for debug
-    //            return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
+                //for debug
+                //            return response()->json(['status' => true, 'data' => $validated, 'message' => 'passed validation'], 200);
 
                 //sanctum create token and puts it in accessToken
                 $accessToken = $userInfo->createToken(uniqid())->plainTextToken;
