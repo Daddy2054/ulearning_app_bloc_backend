@@ -12,6 +12,7 @@ use Encore\Admin\Layout\Content;
 
 class CourseTypeController extends AdminController
 {
+    //actually for showing tree form of the menus
     public function index(Content $content){
         $tree = new Tree(new CourseType);
         return $content->header('Course Types')->body($tree);
@@ -42,9 +43,12 @@ class CourseTypeController extends AdminController
  
          $form->select('parent_id', __('Parent category'))->options((new CourseType())::selectOptions());
  
-         $form->text('title', __('Title')); //text is similar to string in laravel
-         $form->textarea('description', __('Description')); //textarea is similar to text
-         $form->number('order', __('Order')); //number is similar to int
+         //text is similar to string in laravel
+         $form->text('title', __('Title')); 
+         //textarea is similar to text
+         $form->textarea('description', __('Description')); 
+         //number is similar to int
+         $form->number('order', __('Order')); 
  
          return $form;
      }

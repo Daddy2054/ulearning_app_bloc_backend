@@ -12,6 +12,7 @@ class UserController extends AdminController
 {
     protected $title ='Members';
 
+    //grid() method is just to show rows
     protected function grid()
     {
         $grid = new Grid(new User());
@@ -21,13 +22,14 @@ class UserController extends AdminController
         $grid->column('email', __('Email'));
 
         $grid->column('created_at', __('Created at'));
-        $grid->disableActions();
-        $grid->disableCreateButton();
-        $grid->disableExport();
-        $grid->disableFilter();
+        // $grid->disableActions();
+        // $grid->disableCreateButton();
+        // $grid->disableExport();
+        // $grid->disableFilter();
         return $grid;
     }
 
+    //just for view
     protected function detail($id)
     {
         $show = new Show(User::findOrFail($id));
@@ -41,7 +43,7 @@ class UserController extends AdminController
 
         return $show;
     }
-
+// creating and editing
     protected function form()
     {
         $form = new Form(new User());
