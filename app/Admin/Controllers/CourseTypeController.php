@@ -28,13 +28,26 @@ class CourseTypeController extends AdminController
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
-        // $show->disableActions();
-        // $show->disableCreateButton();
-        // $show->disableExport();
-        // $show->disableFilter();
+        $show->disableActions();
+        $show->disableCreateButton();
+        $show->disableExport();
+        $show->disableFilter();
         return $show;
     }
 
+     //creating and editing
+     protected function form()
+     {
+         $form = new Form(new CourseType());
+ 
+         $form->select('parent_id', __('Parent category'))->options((new CourseType())::selectOptions());
+ 
+         $form->text('title', __('Title')); //text is similar to string in laravel
+         $form->textarea('description', __('Description')); //textarea is similar to text
+         $form->number('order', __('Order')); //number is similar to int
+ 
+         return $form;
+     }
 }
 
 
