@@ -53,12 +53,15 @@ class CourseController extends AdminController
         $form->select('type_id', __('Category'))->options($result);
 
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
+//file is used for video and other formats like pdf/doc
         $form->file('video', __('Video'))->uniqueName();
         $form->text('title', __('Title'));
         $form->text('description', __('Description'));
+        //decimal method helps with retrieving float format from the database
         $form->decimal('price', __('Price'));
         $form->number('lesson_num', __('Lesson number'));
         $form->number('video_length', __('Video length'));
+        //for the posting, who is posting
         $result = User::pluck('name', 'token');
         $form->select('user_token', __('Teacher'))->options($result);
         $form->display('created_at', __('Created at'));
