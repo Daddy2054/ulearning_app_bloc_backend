@@ -44,8 +44,14 @@ class CourseController extends AdminController
     {
         $form = new Form(new Course());
         $form->text('name', __('Name'));
+
+        // get our categories
+        //key value pair
+        // last one is the key
         $result = CourseType::pluck('title', 'id');
+        //select method helps you to select one of the options that comes from result
         $form->select('type_id', __('Category'))->options($result);
+
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
         $form->file('video', __('Video'))->uniqueName();
         $form->text('title', __('Title'));
