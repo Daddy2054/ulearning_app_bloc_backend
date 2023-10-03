@@ -18,13 +18,33 @@ use Encore\Admin\Layout\Content;
 class CourseController extends AdminController
 {
 
-    protected function grid(){
+    protected function grid()
+    {
         $grid = new Grid(new Course());
+
+        $grid->column('id', __('Id'));
+        $grid->column('user_token', __('Teachers'))->display(
+            function ($token) {
+                //value function returns a specific field from the match
+                return User::where('token', '=', $token)->value('name');
+            }
+        );
+        $grid->column('name', __('Name'));
+        $grid->column('thumbnail', __('Thumbnail'))->image('', 50, 50);
+        $grid->column('description', __('Description'));
+        $grid->column('type_id', __('Type id'));
+        $grid->column('price', __('Price'));
+        $grid->column('lesson_num', __('Lesson num'));
+        $grid->column('video_length', __('Video length'));
+
+        $grid->column('created_at', __('Created at'));
+
+
         return $grid;
     }
-     protected function detail($id)
+    protected function detail($id)
     {
-        $show = new Show( Course::findOrFail($id));
+        $show = new Show(Course::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('title', __('Category'));
@@ -54,7 +74,7 @@ class CourseController extends AdminController
         $form->select('type_id', __('Category'))->options($result);
 
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
-//file is used for video and other formats like pdf/doc
+        //file is used for video and other formats like pdf/doc
         $form->file('video', __('Video'))->uniqueName();
         $form->text('title', __('Title'));
         $form->text('description', __('Description'));
@@ -69,5 +89,4 @@ class CourseController extends AdminController
         $form->display('updated_at', __('Updated at'));
         return $form;
     }
-
 }
