@@ -13,7 +13,8 @@ use Encore\Admin\Show;
 use Encore\Admin\Tree;
 use Encore\Admin\Layout\Content;
 
-//php artisan make:controller ../../Admin/Controllers/CourseController
+// create command
+// php artisan admin:make CourseController --model=App\\Models\\Course
 class CourseController extends AdminController
 {
 
