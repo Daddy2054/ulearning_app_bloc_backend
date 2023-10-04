@@ -8,16 +8,18 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     
-    //course list
+    //return all course list
     public function courseList()
     {
+        // select fields
         $result = Course::select(
             'name', 
             'thumbnail', 
             'lesson_num', 
             'price', 
             'id',
-            )->get();
+            )
+            ->get();
             
             return response()->json([
                 'code' => 200,
