@@ -16,8 +16,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Api'], function () {
 
-    Route::post('/login', [UserController::class, 'createUser']);
-    //Route::post('/auth/login', [UserController::class, 'loginUser']);
+   // Route::post('/login', [UserController::class, 'createUser']);
+    Route::post('/login', 'UserController@createUser');
+    
+    // authentication middleware
+    Route::group(['middleware'=>'auth:sanctum'], function(){
 
+        Route::any('/courseList', [CourseController::class, 'courseList']);
+    });
 
 });
+
+// if change /add namespace, run these commands
+//php artisan cache:clear
+//php artisan config:clear
+//php artisan route:clear
