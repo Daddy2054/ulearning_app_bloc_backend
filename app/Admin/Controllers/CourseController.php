@@ -47,7 +47,7 @@ class CourseController extends AdminController
         $show = new Show(Course::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('title', __('Category'));
+    //    $show->field('title', __('Category'));
         $show->field('description', __('Description'));
         $show->field('order', __('Order'));
         $show->field('created_at', __('Created at'));
@@ -76,7 +76,7 @@ class CourseController extends AdminController
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
         //file is used for video and other formats like pdf/doc
         $form->file('video', __('Video'))->uniqueName();
-        $form->text('title', __('Title'));
+     //   $form->text('title', __('Title'));
         $form->text('description', __('Description'));
         //decimal method helps with retrieving float format from the database
         $form->decimal('price', __('Price'));

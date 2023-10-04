@@ -22,7 +22,7 @@ Route::group(['namespace' => 'Api'], function () {
     // authentication middleware
     Route::group(['middleware'=>'auth:sanctum'], function(){
 
-        Route::any('/courseList', [CourseController::class, 'courseList']);
+        Route::any('/courseList', 'CourseController@courseList');
     });
 
 });
