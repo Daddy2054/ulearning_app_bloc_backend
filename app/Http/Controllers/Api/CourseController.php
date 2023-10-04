@@ -15,6 +15,7 @@ class CourseController extends Controller
         $result = Course::select(
             'name', 
             'thumbnail', 
+            'description',
             'lesson_num', 
             'price', 
             'id',
