@@ -12,21 +12,31 @@ class CourseController extends Controller
     public function courseList()
     {
         // select fields
-        $result = Course::select(
-            'name', 
-            'thumbnail', 
-            'description',
-            'lesson_num', 
-            'price', 
-            'id',
-            )
-            ->get();
-            
+        try {
+            //code...
+            $result = Course::select(
+                'name', 
+                'thumbnail', 
+                'description',
+                'lesson_num', 
+                'price', 
+                'id',
+                )
+                ->get();
+                
+                return response()->json([
+                    'code' => 200,
+                    'msg' => 'My course list is here',
+                    'data' => $result,
+                ], 200);
+        } catch (\Throwable $throw) {
+            //throw $th;
             return response()->json([
-                'code' => 200,
-                'msg' => 'My course list is here',
-                'data' => $result,
-            ], 200);
+                'code'=>500,
+                'msg'=> 'The column does not exist or you have a syntax error',
+                'data'=>$throw->getMessage()
+            ],500);
+        }
         }
     }
     
