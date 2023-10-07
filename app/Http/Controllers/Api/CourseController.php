@@ -40,6 +40,8 @@ class CourseController extends Controller
         }
     }
 
+
+    //return all the course detail
     public function courseDetail(Request $request)
     {
         //course id
@@ -49,12 +51,14 @@ class CourseController extends Controller
             //code...
             $result = Course::where('id', '=', $id)
                 ->select(
-                    'name',
-                    'thumbnail',
-                    'description',
-                    'lesson_num',
-                    'price',
                     'id',
+                    'name',
+                    'user_token',
+                    'description',
+                    'price',
+                    'lesson_num',
+                    'video_length',
+                    'thumbnail',
                 )
                 ->get();
 
