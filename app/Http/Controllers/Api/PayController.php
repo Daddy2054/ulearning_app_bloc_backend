@@ -30,6 +30,7 @@ class PayController extends Controller
             //
             // Stripe api key
             //
+            Stripe::setApiKey('sk_test_51NzMXaHDqtNmz2BIvGZSB8UwUjGwAC9bzTK8Yu6PaTxQwsgoO4Yd9k2FSbW8jNnWHIpDctev4yjMyD157WK7zQU300uy7PK2zx');
 
             $courseResult = Course::where('id', '=', $courseId)->first();
             // invalid request
@@ -43,7 +44,7 @@ class PayController extends Controller
             $orderMap = [];
             $orderMap['course_id'] = $courseId;
             $orderMap['user_token'] = $token;
-            $orderMap['status'] = 0;
+            $orderMap['status'] = 1;
 
             //
             // if the order has been placed before or not
@@ -61,18 +62,43 @@ class PayController extends Controller
 
             // new order for the user and let's submit
             $YOUR_DOMAIN = env('APP_URL');
-            $map=[];
-            $map['user_token']=$token;
-            $map['course_id']=$courseId;
-            $map['total_amount']=$courseResult-> price;
-            $map['status']=0;
-            $map['created_at']=Carbon::now();
-            $orderNum=Order::insertGetId($map);
+            $map = [];
+            $map['user_token'] = $token;
+            $map['course_id'] = $courseId;
+            $map['total_amount'] = $courseResult->price;
+            $map['status'] = 0;
+            $map['created_at'] = Carbon::now();
+            $orderNum = Order::insertGetId($map);
+            //create payment session
+
+            $checkoutSession = Session::create(
+                [
+                    'line_items' => [[
+                        'price_data' => [
+                            'currency' => 'USD',
+                            'product_data' => [
+                                'name' => $courseResult->name,
+                                'description' => $courseResult->description,
+                            ],
+                            'unit_amount' => intval(($courseResult->price) * 100),
+                        ],
+                        'quantity' => 1,
+                    ]],
+                    'payment_intent_data' => [
+                        'metadata' => ['order_num' => $orderNum, 'user_token' => $token],
+                    ],
+                    'metadata' => ['order_num' => $orderNum, 'user_token' => $token],
+                    'mode' => 'payment',
+                    'success_url' => $YOUR_DOMAIN . 'success',
+                    'cancel_url' => $YOUR_DOMAIN . 'cancel'
+                ]
+            );
+
 
             return response()->json([
                 'code' => 200,
-                'msg' => 'Course found',
-                'data' => $orderRes
+                'msg' => 'success',
+                'data' => $$checkoutSession->url,
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
