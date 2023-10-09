@@ -60,7 +60,8 @@ class CourseController extends Controller
                     'video_length',
                     'thumbnail',
                 )
-                ->get();
+        //        ->get();
+        ->first();
 
             return response()->json([
                 'code' => 200,
