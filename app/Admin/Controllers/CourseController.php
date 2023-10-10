@@ -36,7 +36,7 @@ class CourseController extends AdminController
         $grid->column('price', __('Price'));
         $grid->column('lesson_num', __('Lesson num'));
         $grid->column('video_length', __('Video length'));
-
+        $grid->column('downloadable_res', __('Resources num'));
         $grid->column('created_at', __('Created at'));
 
 
@@ -47,7 +47,7 @@ class CourseController extends AdminController
         $show = new Show(Course::findOrFail($id));
 
         $show->field('id', __('Id'));
-    //    $show->field('title', __('Category'));
+        //    $show->field('title', __('Category'));
         $show->field('description', __('Description'));
         $show->field('order', __('Order'));
         $show->field('created_at', __('Created at'));
@@ -76,12 +76,13 @@ class CourseController extends AdminController
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
         //file is used for video and other formats like pdf/doc
         $form->file('video', __('Video'))->uniqueName();
-     //   $form->text('title', __('Title'));
+        //   $form->text('title', __('Title'));
         $form->text('description', __('Description'));
         //decimal method helps with retrieving float format from the database
         $form->decimal('price', __('Price'));
         $form->number('lesson_num', __('Lesson number'));
         $form->number('video_length', __('Video length'));
+        $form->number('downloadable_res', __('Resources num'));
         //for the posting, who is posting
         $result = User::pluck('name', 'token');
         $form->select('user_token', __('Teacher'))->options($result);

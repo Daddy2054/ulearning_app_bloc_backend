@@ -59,6 +59,7 @@ class CourseController extends Controller
                     'lesson_num',
                     'video_length',
                     'thumbnail',
+                    'downloadable_res',
                 )
         //        ->get();
         ->first();
