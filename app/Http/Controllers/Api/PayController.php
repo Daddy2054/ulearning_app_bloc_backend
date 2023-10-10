@@ -94,11 +94,11 @@ class PayController extends Controller
                 ]
             );
 
-
+//returning stripe payment url
             return response()->json([
                 'code' => 200,
                 'msg' => 'success',
-                'data' => $$checkoutSession->url,
+                'data' => $checkoutSession->url,
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
