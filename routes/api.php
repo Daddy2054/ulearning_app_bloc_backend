@@ -26,6 +26,8 @@ Route::group(['namespace' => 'Api'], function () {
         Route::any('/courseDetail', 'CourseController@courseDetail');
         Route::any('/checkout', 'PayController@checkout');
     });
+    //https://42d6-158-148-62-206.ngrok-free.app/
+    Route::any('/web_go_hooks','PayController@web_go_hooks');
 
 });
 
