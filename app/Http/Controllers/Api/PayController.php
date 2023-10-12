@@ -57,8 +57,9 @@ class PayController extends Controller
                 return response()->json([
                     'code' => 400,
                     'msg' => 'You already bought this course',
-                    'data' => $orderRes,
-                ], 400);
+                    'data' => "",
+                   // 'data' => $orderRes,
+                ]);
             }
 
             // new order for the user and let's submit
