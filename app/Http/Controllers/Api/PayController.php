@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Stripe\Webhook;
 use Stripe\Customer;
 use Stripe\Price;
@@ -110,7 +111,7 @@ class PayController extends Controller
 
     public function web_go_hooks()
     {
-        // Log::info("11211-------");
+        Log::info("11211-------");
         $STRIPE_API_KEY = env('STRIPE_API_KEY');
         Stripe::setApiKey($STRIPE_API_KEY);
         $STRIPE_ENDPOINT_SECRET = env('STRIPE_ENDPOINT_SECRET');
@@ -118,7 +119,7 @@ class PayController extends Controller
         $payload = @file_get_contents('php://input');
         $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;
-        //  Log::info("payload----" . $payload);
+        Log::info("payload----" . $payload);
 
         try {
             $event = \Stripe\Webhook::constructEvent(
@@ -128,24 +129,24 @@ class PayController extends Controller
             );
         } catch (\UnexpectedValueException $e) {
             // Invalid payload
-            //  Log::info("UnexpectedValueException" . $e);
+            Log::info("UnexpectedValueException" . $e);
             http_response_code(400);
             exit();
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
             // Invalid signature
-            //    Log::info("SignatureVerificationException" . $e);
+            Log::info("SignatureVerificationException" . $e);
             http_response_code(400);
             exit();
         }
         //   Log::info("event---->" . $event);
         // Handle the checkout.session.completed event
-        if ($event->type == 'checkout.session.completed') {
+        if ($event->type == 'charge.succeeded') {
             $session = $event->data->object;
-            // Log::info("event->data->object---->" . $session);
+            Log::info("event->data->object---->" . $session);
             $metadata = $session["metadata"];
             $order_num = $metadata->order_num;
             $user_token = $metadata->user_token;
-            //  Log::info("order_id---->" . $order_num);
+            Log::info("order_id---->" . $order_num);
             $map = [];
             $map["status"] = 1;
             $map["updated_at"] = Carbon::now();

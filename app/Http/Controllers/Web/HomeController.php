@@ -15,7 +15,7 @@ class HomeController extends Controller
     //stripe webhook needs this
     public function success()
     {
-        return "Yes";
+        return View("success");
     } 
     //stripe webhook needs this
     public function cancel()
