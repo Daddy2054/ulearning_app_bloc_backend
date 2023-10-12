@@ -29,8 +29,8 @@ class PayController extends Controller
 
             //
             // Stripe api key
-            //
-            Stripe::setApiKey('sk_test_51NzMXaHDqtNmz2BIvGZSB8UwUjGwAC9bzTK8Yu6PaTxQwsgoO4Yd9k2FSbW8jNnWHIpDctev4yjMyD157WK7zQU300uy7PK2zx');
+            $STRIPE_API_KEY = env('STRIPE_API_KEY');
+            Stripe::setApiKey($STRIPE_API_KEY);
 
             $courseResult = Course::where('id', '=', $courseId)->first();
             // invalid request
@@ -111,8 +111,10 @@ class PayController extends Controller
     public function web_go_hooks()
     {
         // Log::info("11211-------");
-        Stripe::setApiKey('sk_test_51NzMXaHDqtNmz2BIvGZSB8UwUjGwAC9bzTK8Yu6PaTxQwsgoO4Yd9k2FSbW8jNnWHIpDctev4yjMyD157WK7zQU300uy7PK2zx');
-        $endpoint_secret = 'whsec_ui9XAhQu1deArmLTVlvAoSXxonmquoRR';
+        $STRIPE_API_KEY = env('STRIPE_API_KEY');
+        Stripe::setApiKey($STRIPE_API_KEY);
+        $STRIPE_ENDPOINT_SECRET = env('STRIPE_ENDPOINT_SECRET');
+        $endpoint_secret = $STRIPE_ENDPOINT_SECRET;
         $payload = @file_get_contents('php://input');
         $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;
