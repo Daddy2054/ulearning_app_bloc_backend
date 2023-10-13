@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Course;
 use App\Models\Lesson;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -48,9 +49,9 @@ class LessonController extends AdminController
     {
         $show = new Show(Lesson::findOrFail($id));
 
-        $show->field('id', __('Id'));
-        $show->field('course_id', __('Course id'));
+        $show->field('id', __('ID'));
         $show->field('name', __('Name'));
+        $show->field('course_id', __('Course name'));
         $show->field('thumbnail', __('Thumbnail'));
         $show->field('description', __('Description'));
         $show->field('video', __('Video'));
@@ -69,7 +70,11 @@ class LessonController extends AdminController
     {
         $form = new Form(new Lesson());
 
-        $form->number('course_id', __('Course id'));
+        $result = Course::pluck('name', 'id');
+        //      dd($result);
+        $form->select('course_id', __('courses'))->options($result);
+
+   //     $form->number('course_id', __('Course id'));
         $form->text('name', __('Name'));
         $form->text('thumbnail', __('Thumbnail'));
         $form->textarea('description', __('Description'));
