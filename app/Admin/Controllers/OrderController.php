@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Course;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -29,13 +31,24 @@ class OrderController extends AdminController
         $grid = new Grid(new Order());
 
         $grid->column('id', __('Id'));
-        $grid->column('user_token', __('User token'));
+        //match buyer id from the database
+        $grid->column('user_token', __('Buyer'))->display(function ($token) {
+            //name is the column name in the User table
+            return User::where('token', '=', $token)->value("name");
+        });
         $grid->column('total_amount', __('Total amount'));
-        $grid->column('course_id', __('Course id'));
+        $grid->column('course_id', __('Course'))->display(function ($id) {
+            //name is the column name in the Course table
+            return Course::where('id', '=', $id)->value("name");
+        });
         $grid->column('status', __('Status'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
+        $grid->disableActions();
+        $grid->disableCreateButton();
+        // $grid->disableExport();
+        // $grid->disableFilter();
         return $grid;
     }
 

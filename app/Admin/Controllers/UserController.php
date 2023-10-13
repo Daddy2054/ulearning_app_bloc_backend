@@ -23,9 +23,9 @@ class UserController extends AdminController
 
         $grid->column('created_at', __('Created at'));
         // $grid->disableActions();
-        // $grid->disableCreateButton();
-        // $grid->disableExport();
-        // $grid->disableFilter();
+        $grid->disableCreateButton();
+        $grid->disableExport();
+        $grid->disableFilter();
         return $grid;
     }
 
