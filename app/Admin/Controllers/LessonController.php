@@ -71,15 +71,23 @@ class LessonController extends AdminController
         $form = new Form(new Lesson());
 
         $result = Course::pluck('name', 'id');
+        $form->text('name', __('Name'));
         //      dd($result);
         $form->select('course_id', __('courses'))->options($result);
 
-   //     $form->number('course_id', __('Course id'));
-        $form->text('name', __('Name'));
-        $form->text('thumbnail', __('Thumbnail'));
+        //     $form->number('course_id', __('Course id'));
+        $form->image('thumbnail', __('Thumbnail'))->uniqueName();
         $form->textarea('description', __('Description'));
-        $form->text('video', __('Video'));
+    //    $form->text('video', __('Video'));
 
+        $form->table('video', 'video', function ($form) {
+            $form->text('name')->rules('required');
+            $form->image('thumbnail')->uniqueName()->rules('required');
+            //any kind of media
+            $form->file('url')->rules('required');
+        });
+        $form->display('created_at', __('Created at'));
+        $form->display('updated_at', __('Updated at'));
         return $form;
     }
 }
