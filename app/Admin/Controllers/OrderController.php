@@ -41,7 +41,10 @@ class OrderController extends AdminController
             //name is the column name in the Course table
             return Course::where('id', '=', $id)->value("name");
         });
-        $grid->column('status', __('Status'));
+        $grid->column('status', __('Status'))->display(function ($status) {
+            //name is the column name in the Course table
+            return $status == "1" ? "paid" : "pending";
+        });
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
