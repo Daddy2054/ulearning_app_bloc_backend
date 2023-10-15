@@ -25,8 +25,10 @@ Route::group(['namespace' => 'Api'], function () {
         Route::any('/courseList', 'CourseController@courseList');
         Route::any('/courseDetail', 'CourseController@courseDetail');
         Route::any('/checkout', 'PayController@checkout');
+        Route::any('/lessonList', 'LessonController@lessonList');
+        Route::any('/lessonDetail', 'LessonController@lessonDetail');
     });
-    //https://42d6-158-148-62-206.ngrok-free.app/
+    // this is call from Stripe.com, no authentication
     Route::any('/web_go_hooks','PayController@web_go_hooks');
 
 });

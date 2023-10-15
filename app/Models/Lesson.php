@@ -25,7 +25,7 @@ class Lesson extends Model
 
 
         $this->attributes['video'] = array_values(json_decode($value, true)?:[]);
-     //   dd($this->attributes['video']);
+  //     dd($this->attributes['video']);
     }
 }
     //php artisan make:model Lesson
