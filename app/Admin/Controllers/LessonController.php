@@ -25,14 +25,16 @@ class LessonController extends AdminController
      */
     protected function grid()
     {
+        $YOUR_DOMAIN = env('APP_URL');
+
         $grid = new Grid(new Lesson());
 
         $grid->column('id', __('Id'));
         $grid->column('course_id', __('Course id'));
         $grid->column('name', __('Name'));
-        $grid->column('thumbnail', __('Thumbnail'));
+        $grid->column('thumbnail', __('Thumbnail'))->image($YOUR_DOMAIN . 'uploads/', 50, 50);
         $grid->column('description', __('Description'));
-        $grid->column('video', __('Video'));
+        //      $grid->column('video', __('Video'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -78,7 +80,7 @@ class LessonController extends AdminController
         //     $form->number('course_id', __('Course id'));
         $form->image('thumbnail', __('Thumbnail'))->uniqueName();
         $form->textarea('description', __('Description'));
-    //    $form->text('video', __('Video'));
+        //    $form->text('video', __('Video'));
 
         $form->table('video', 'video', function ($form) {
             $form->text('name')->rules('required');
