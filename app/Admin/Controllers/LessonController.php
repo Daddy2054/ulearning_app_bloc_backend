@@ -82,12 +82,35 @@ class LessonController extends AdminController
         $form->textarea('description', __('Description'));
         //    $form->text('video', __('Video'));
 
-        $form->table('video', 'video', function ($form) {
-            $form->text('name')->rules('required');
-            $form->image('thumbnail')->uniqueName()->rules('required');
-            //any kind of media
-            $form->file('url')->rules('required');
-        });
+        if($form->isEditing()){
+
+            //access this during form eddting
+          //   dump($form->video);
+
+                $form->table('video', 'video',function ($form) {
+                $form->text('name');
+                $form->hidden('old_url');
+                $form->hidden('old_thumbnail');
+                $form->image('thumbnail')->uniqueName();
+
+                //any kind of media
+                //$result[$key]['url'] = env('APP_URL')."uploads/".$value['url'];
+           //     $form->file($fullurl);
+                $form->file('url');
+            });
+            
+        }else{
+            
+            //normal form submission or form creating
+            
+            $form->table('video','video', function ($form) {
+     
+                $form->text('name')->rules('required');
+                $form->image('thumbnail')->uniqueName()->rules('required');
+                //any kind of media
+                $form->file('url')->rules('required');
+            });
+        }
         $form->display('created_at', __('Created at'));
         $form->display('updated_at', __('Updated at'));
         return $form;
