@@ -12,11 +12,12 @@ class Lesson extends Model
     use DefaultDatetimeFormat;
     
     
-    protected $casts = [
-        'video'=>'json'
-    ];
+    // protected $casts = [
+    //     'video'=>'json'
+    // ];
 
     public function setVideoAttribute($value){
+        //dd($value);
         //the below method json_encode converts the object to json from array
         $this->attributes['video'] = json_encode(array_values($value));
     }
@@ -25,7 +26,8 @@ class Lesson extends Model
 
 
         $this->attributes['video'] = array_values(json_decode($value, true)?:[]);
-  //     dd($this->attributes['video']);
+       //dd($this->attributes['video']);
+     //  dd($value);
     }
 }
     //php artisan make:model Lesson
